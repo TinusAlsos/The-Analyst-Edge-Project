@@ -1,0 +1,164 @@
+---
+title: "Student Success"
+author: "Anna Wiewer"
+date: "`r Sys.Date()`"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Loading libraries
+```{r}
+library(tidyverse) # Includes ggplot2 and dplyr
+library(plotly)
+library(caret)
+library(rpart)
+library(randomForest)
+library(class)
+library(xgboost)
+library(e1071)
+library(caretEnsemble)
+library(dplyr)
+```
+
+## Reading data & Converting
+```{r}
+student_data <- read.csv('/Users/annawiewer/Desktop/Analytics Edge/Group project/Data/dataset (3).csv')
+
+# Convert 'target' variable into a factor
+student_data$Target <- factor(student_data$Target)
+str(student_data)
+
+#Redefine values for target variable
+student_data <- student_data %>%
+  mutate(Target = case_when(
+    Target == 'Dropout' ~ 0,
+    Target == 'Enrolled' ~ 2,
+    Target == 'Graduate' ~ 1
+  ))
+str(student_data)
+
+#Note: imbalance in data set: Graduate (2209), Dropout (1421), Enrolled (794)
+```
+
+
+## Creating two datasets: One solely with enrolled and the other one with dropout and graduated
+```{r}
+#Dataset with only enrolled students:
+enrolled_data <- student_data[student_data$Target == 2, ]
+
+str(enrolled_data)
+
+# Dataset with drop and grad:
+dropout_graduated_data <- student_data[student_data$Target %in% c(0, 1), ]
+
+```
+
+## Splitting the data
+```{r}
+# Loading necessary library
+library(caret)
+
+# Splitting the data
+set.seed(42)  # Setting seed for reproducibility
+trainIndex <- createDataPartition(dropout_graduated_data$Target, p = 0.7, list = FALSE)
+train_data <- dropout_graduated_data[trainIndex, ]  # Training data (70%)
+test_data <- dropout_graduated_data[-trainIndex, ]  # Test data (30%)
+
+# Separating predictors (X) and target variable (y)
+X_train <- train_data[, !names(train_data) %in% "Target"]
+y_train <- train_data$Target
+X_test <- test_data[, !names(test_data) %in% "Target"]
+y_test <- test_data$Target
+```
+
+##  k-means on dropout_graduated_data dataset
+
+```{r}
+
+# check variable types for distances 
+#k-means
+features_dropout_graduated <- dropout_graduated_data[, -ncol(dropout_graduated_data)]  # Exclude the 'Target' column
+
+# Elbow Method to determine the optimal number of clusters
+wss <- numeric(10)  # Store Within-Cluster Sum of Squares (WSS) for different k values
+for (i in 1:10) {
+  kmeans_model <- kmeans(dropout_graduated_data, centers = i)
+  wss[i] <- kmeans_model$tot.withinss
+}
+
+# Plot the Elbow Method graph
+plot(1:10, wss, type = 'b', xlab = 'Number of Clusters (k)', ylab = 'Within-Cluster Sum of Squares (WSS)',
+     main = 'Elbow Method to Determine Optimal k')
+
+set.seed(1234)
+
+kmeans_result <- kmeans(dropout_graduated_data, centers = 4)
+
+print(kmeans_result)
+
+# Mean values of each cluster
+aggregate(dropout_graduated_data, by=list(kmeans_result$cluster), mean)
+
+library(ggplot2)
+library(tidyverse)
+library(corrplot)
+library(gridExtra)
+library(GGally)
+library(knitr)
+# Clustering 
+ggpairs(cbind(dropout_graduated_data, Cluster=as.factor(kmeans_result$cluster)),
+        columns=1:4, aes(colour=Cluster, alpha=0.5),
+        lower=list(continuous="points"),
+        upper=list(continuous="blank"),
+        axisLabels="none", switch="both") +
+        theme_bw()
+library(factoextra)
+
+
+# Convert all columns to numeric using lapply
+dropout_graduated_data <- as.data.frame(lapply(dropout_graduated_data, as.numeric))
+
+fviz_cluster(kmeans_result, data = dropout_graduated_data)
+
+
+
+
+
+```
+
+## logistic regression
+```{r}
+# Fitting logistic regression model
+
+library(ShapleyValue)
+
+logistic_model <- glm(Target ~ ., data = train_data, family = binomial)
+summary(logistic_model)
+
+
+pdp_result <- pdp::partial(logistic_model, pred.var = "Gender")
+
+# Plot the partial dependence plot
+ggplot(pdp_result, as.ggplot = TRUE) +
+  geom_line(aes_string(x = "Gender", y = "yhat")) +
+  labs(x = "Gender", y = "Partial Dependence") +
+  ggtitle("Partial Dependence Plot for Gender")
+
+
+
+# Basic principle behind shapley values
+y <- train_data$Target
+x <- as.data.frame(train_data[, c("Course", "Nacionality", "Mother.s.occupation", "Debtor", "Tuition.fees.up.to.date", "Scholarship.holder", "International", "Curricular.units.1st.sem..approved.", "Curricular.units.1st.sem..credited.", "Curricular.units.2nd.sem..enrolled.", "Curricular.units.2nd.sem..approved.")])
+
+value <- shapleyvalue(y,x)
+
+value
+
+```
+
+
+
+
+
