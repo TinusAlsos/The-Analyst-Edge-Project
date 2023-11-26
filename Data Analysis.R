@@ -13,6 +13,25 @@ library(neuralnet)
 #import data
 df <- read.csv("dataset.csv")
 
+#convert data types
+df$Marital.status <- as.factor(df$Matrial.status)
+df$Application.mode <- as.factor(df$Application.mode)
+df$Course <- as.factor(df$Course)
+df$Daytime.evening.attendance <- as.factor(df$Daytime.evening.attendance)
+df$Previous.qualification <- as.factor(df$Previous.qualification)
+df$Nacionality <- as.factor(df$Nacionality)
+df$Mother.s.qualification <- as.factor(df$Mother.s.qualification)
+df$Father.s.qualification <- as.factor(df$Father.s.qualification)
+df$Mother.s.occupation <- as.factor(df$Mother.s.occupation)
+df$Father.s.occupation <- as.factor(df$Father.s.occupation)
+df$Displaced <- as.factor(df$Displaced)
+df$Educational.special.needs <- as.factor(df$Educational.special.needs)
+df$Debtor <- as.factor(df$Debtor)
+df$Tuition.fees.up.to.date <- as.factor(df$Tuition.fees.up.to.date)
+df$Gender <- as.factor(df$Gender)
+df$Scholarship.holder <- as.factor(df$Scholarship.holder)
+df$International <- as.factor(df$International)
+
 #display basic info on dataframe
 str(df)
 
