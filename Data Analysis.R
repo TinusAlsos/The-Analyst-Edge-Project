@@ -92,6 +92,7 @@ random_forest_accuracy_test <- sum(diag(random_forest_confusion_matrix_test)) / 
 
 #neural network model
 neural_network_model <- neuralnet(Target ~., data=df_train)
+
 neural_network_predicted_values_train <- predict(neural_network_model, newdata = df_train)
 neural_network_predicted_values_test <- predict(neural_network_model, newdata = df_test)
 
@@ -101,3 +102,11 @@ neural_network_confusion_matrix_train <- table(df_train$Target, neural_network_t
 neural_network_confusion_matrix_test <- table(df_test$Target, neural_network_threshold_values_test)
 neural_network_accuracy_train <- sum(diag(neural_network_confusion_matrix_train)) / sum(neural_network_confusion_matrix_train)
 neural_network_accuracy_test <- sum(diag(neural_network_confusion_matrix_test)) / sum(neural_network_confusion_matrix_test)
+
+#make table with accuracy summary
+accuracy_summary <- data.frame(logistic_regression <- c(logistic_regression_accuracy_train, logistic_regression_accuracy_test), 
+                               SVM <- c(SVM_accuracy_train, SVM_accuracy_test), 
+                               CART <- c(CART_accuracy_train, CART_accuracy_test), 
+                               random_forest <- c(random_forest_accuracy_train, random_forest_accuracy_test), 
+                               neural_network <- c(neural_network_accuracy_train, neural_network_accuracy_test))
+row.names(accuracy_summary) <- c("Training Accuracy", "Test Accuracy")
