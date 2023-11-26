@@ -1,0 +1,196 @@
+---
+title: "PCA"
+author: "Anna Wiewer"
+date: "`r Sys.Date()`"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Read data file
+
+```{r}
+
+dataset <- read.csv("/Users/annawiewer/Desktop/Analytics Edge/Group project/Data/dataset (3).csv")
+
+# Convert 'target' variable into a factor
+dataset$Target <- factor(dataset$Target)
+str(dataset)
+
+#Redefine values for target variable
+dataset <- dataset %>%
+  mutate(Target = case_when(
+    Target == 'Dropout' ~ 0,
+    Target == 'Enrolled' ~ 2,
+    Target == 'Graduate' ~ 1
+  ))
+
+#Note: imbalance in data set: Graduate (2209), Dropout (1421), Enrolled (794)
+
+#Dataset with only enrolled students:
+enrolled_data <- dataset[dataset$Target == 2, ]
+
+# Dataset with drop and grad:
+dropout_graduate_data <- dataset[dataset$Target %in% c(0, 1), ]
+
+## Explore curriculum variables
+# Filter for dropouts with grades less than 10
+dropouts_with_low_grades <- dropout_graduate_data[dropout_graduate_data$Target == 0 & dropout_graduate_data$Curricular.units.1st.sem..grade. < 10, ]
+
+# Count the number of such dropouts
+number_of_dropouts <- nrow(dropouts_with_low_grades)
+number_of_dropouts
+
+# Filter for dropouts with approved =0 
+dropouts_with_low_grades <- dropout_graduate_data[dropout_graduate_data$Target == 0 & dropout_graduate_data$Curricular.units.1st.sem..approved. == 0, ]
+
+# Count the number of such dropouts
+number_of_dropouts <- nrow(dropouts_with_low_grades)
+number_of_dropouts
+
+
+# Identify all numeric columns except the target variable
+numeric_columns <- sapply(dropout_graduate_data, is.numeric) & (names(dropout_graduate_data) != "Target")
+
+# Standardize only the numeric columns that are not the target
+dropout_graduate_data[numeric_columns] <- scale(dropout_graduate_data[numeric_columns])
+
+
+#split data into train and test
+set.seed(144)
+split <- createDataPartition(dropout_graduate_data$Target, p = 0.7, list = FALSE)
+df_train <- dropout_graduate_data[split,]
+df_test <- dropout_graduate_data[-split,]
+
+```
+
+# Performing PCA
+```{r}
+library(caret)
+library(ggplot2)
+
+
+# Perform PCA and keep the first two principal components
+preproc <- preProcess(df_train[, -which(names(df_train) == "Target")], method = "pca", pcaComp = 2)
+data_pca <- predict(preproc, df_train)
+
+# Add the target variable back into the PCA-transformed data
+data_pca$Target <- df_train$Target
+
+# Fit a logistic regression model on the PCA-transformed data
+model_pca <- glm(Target ~ PC1 + PC2, data = data_pca, family = "binomial")
+
+# Create a grid for the decision boundary as before
+grid_data <- expand.grid(PC1 = seq(min(data_pca$PC1), max(data_pca$PC1), length.out = 200),
+                         PC2 = seq(min(data_pca$PC2), max(data_pca$PC2), length.out = 200))
+
+# Predict over the grid
+grid_data$Target_Predicted <- predict(model_pca, newdata = grid_data, type = "response")
+
+# Convert predictions to binary classes
+grid_data$Class <- ifelse(grid_data$Target_Predicted > 0.5, 1, 0)
+
+ggplot() +
+  geom_tile(data = grid_data, aes(x = PC1, y = PC2, fill = factor(Class)), alpha = 0.5) +
+  geom_point(data = data_pca, aes(x = PC1, y = PC2, color = factor(Target))) +
+  scale_fill_manual(values = c("blue", "red")) +
+  scale_color_manual(values = c("blue", "red")) +
+  labs(color = "Actual Class", fill = "Predicted Class") +
+  ggtitle("Decision Boundary with PCA") +
+  theme_minimal()
+
+
+# Comments on the plot:
+#Color Zones: The background colors (blue and red) represent the areas where the classification model predicts class '0' or '1', respectively. These are based on the trained model's predictions over a grid that spans the PCA-reduced feature space.
+
+#Decision Boundary: The boundary where the color changes from blue to red marks the decision boundary. This is the line (or curve in some cases) where the model switches its prediction from one class to the other.
+
+#Data Points: The dots represent actual data points. The color of the dots (blue for '0', red for '1') indicates the true class labels of the observations.
+
+#Model Accuracy: Where the colors of the dots and the background match, the model's predictions are correct. Where they do not match, the model has made an incorrect prediction. In this plot, it seems there is a significant mix of blue dots in the red area and vice versa, which may suggest areas of misclassification by the model.
+
+#PCA Components: Because this plot is based on principal components, the axes (PC1 and PC2) do not correspond to original features but to constructed features that represent combinations of the original features that explain most of the variance.
+
+#Evaluation: If the goal is to evaluate the performance of the model, you would look at how well the decision boundary separates the blue dots from the red dots. The clearer the separation, the better the model is at distinguishing between the two classes.
+
+#Predicted vs. Actual: The legend indicates the color coding for the predicted class and the actual class, which allows you to visually assess the model's performance in terms of false positives and negatives.
+
+#In summary, this plot gives a visual representation of how well the model is performing in classifying the data after dimensionality reduction with PCA. It helps in understanding the model's ability to distinguish between classes in a lower-dimensional representation of the dataset.
+
+pca_result <- prcomp(df_train[, -which(names(df_train) == "Target")], scale. = TRUE)
+
+pca_loadings <- abs(pca_result$rotation)
+
+pca_summary <- summary(pca_result)
+print(pca_summary)
+
+screeplot(pca_result, type = "lines")
+
+pca_contrib <- sweep(pca_loadings^2, 2, colSums(pca_loadings^2), FUN = "/") * 100
+
+#To find out which variables contribute most to the first principal component:
+
+sorted_contrib <- sort(pca_contrib[,1], decreasing = TRUE)
+
+sorted_contrib
+
+
+```
+
+# Excluding variables 
+```{r}
+
+library(dplyr)
+
+#split data into train and test
+# The more of the curric variables are removed the less accurate are the predictions as it can be seen in the graph
+
+
+columns_to_remove <- c("International", "Curricular.units.1st.sem..approved.", "Curricular.units.1st.sem..grade.",
+                       "Curricular.units.1st.sem..evaluations.", 
+                       "Curricular.units.1st.sem..without.evaluations.", 
+                       "Curricular.units.1st.sem..credited.",
+                       "Curricular.units.1st.sem..enrolled.",
+                       "Curricular.units.2nd.sem..approved.", "Curricular.units.2nd.sem..grade.", 
+                       "Curricular.units.2nd.sem..without.evaluations", 
+                       "Curricular.units.2nd.sem..evaluations.",
+                       "Curricular.units.2nd.sem..credited.",
+                       "Curricular.units.2nd.sem..enrolled.")
+
+df_train_without <- subset(df_train, select = -which(names(df_train) %in% columns_to_remove))
+
+df_test_without <- subset(df_test, select = -which(names(df_test) %in% columns_to_remove))
+
+# Perform PCA and keep the first two principal components
+preproc <- preProcess(df_train_without[, -which(names(df_train_without) == "Target")], method = "pca", pcaComp = 2)
+data_pca <- predict(preproc, df_train_without)
+
+# Add the target variable back into the PCA-transformed data
+data_pca$Target <- df_train_without$Target
+
+# Fit a logistic regression model on the PCA-transformed data
+model_pca <- glm(Target ~ PC1 + PC2, data = data_pca, family = "binomial")
+
+# Create a grid for the decision boundary as before
+grid_data <- expand.grid(PC1 = seq(min(data_pca$PC1), max(data_pca$PC1), length.out = 200),
+                         PC2 = seq(min(data_pca$PC2), max(data_pca$PC2), length.out = 200))
+
+# Predict over the grid
+grid_data$Target_Predicted <- predict(model_pca, newdata = grid_data, type = "response")
+
+# Convert predictions to binary classes
+grid_data$Class <- ifelse(grid_data$Target_Predicted > 0.5, 1, 0)
+
+ggplot() +
+  geom_tile(data = grid_data, aes(x = PC1, y = PC2, fill = factor(Class)), alpha = 0.5) +
+  geom_point(data = data_pca, aes(x = PC1, y = PC2, color = factor(Target))) +
+  scale_fill_manual(values = c("blue", "red")) +
+  scale_color_manual(values = c("blue", "red")) +
+  labs(color = "Actual Class", fill = "Predicted Class") +
+  ggtitle("Decision Boundary with PCA") +
+  theme_minimal()
+
+
+```
