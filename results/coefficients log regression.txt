@@ -1,0 +1,297 @@
+Dataset: All variables
+                                           Feature  Coefficient
+0                                        Intercept    -0.210920
+1                                   Marital status     0.179660
+2                                 Application mode    -0.025905
+3                                Application order    -0.038066
+4                                           Course    -0.094362
+5                       Daytime/evening attendance    -0.228201
+6                           Previous qualification     0.032537
+7                                      Nacionality    -0.089739
+8                           Mother's qualification    -0.010359
+9                           Father's qualification     0.009014
+10                             Mother's occupation     0.051518
+11                             Father's occupation     0.004908
+12                                       Displaced    -0.309128
+13                       Educational special needs    -0.180701
+14                                          Debtor    -1.185004
+15                         Tuition fees up to date     2.381154
+16                                          Gender    -0.404557
+17                              Scholarship holder     0.695014
+18                               Age at enrollment    -0.035528
+19                                   International     1.602724
+20             Curricular units 1st sem (credited)    -0.232161
+21             Curricular units 1st sem (enrolled)    -0.258476
+22          Curricular units 1st sem (evaluations)     0.001826
+23             Curricular units 1st sem (approved)     0.652894
+24                Curricular units 1st sem (grade)    -0.100493
+25  Curricular units 1st sem (without evaluations)     0.112389
+26             Curricular units 2nd sem (credited)    -0.146059
+27             Curricular units 2nd sem (enrolled)    -0.731371
+28          Curricular units 2nd sem (evaluations)    -0.028839
+29             Curricular units 2nd sem (approved)     0.984084
+30                Curricular units 2nd sem (grade)     0.094400
+31  Curricular units 2nd sem (without evaluations)     0.206283
+32                               Unemployment rate    -0.070357
+33                                  Inflation rate     0.023305
+34                                             GDP    -0.025842
+Dataset: Before 2nd sem
+                                           Feature  Coefficient
+0                                        Intercept    -0.202083
+1                                   Marital status     0.106162
+2                                 Application mode    -0.034228
+3                                Application order    -0.012888
+4                                           Course    -0.095446
+5                       Daytime/evening attendance    -0.427408
+6                           Previous qualification     0.034389
+7                                      Nacionality    -0.096298
+8                           Mother's qualification    -0.008247
+9                           Father's qualification     0.005453
+10                             Mother's occupation     0.060981
+11                             Father's occupation     0.012080
+12                                       Displaced    -0.372347
+13                       Educational special needs    -0.071381
+14                                          Debtor    -1.162382
+15                         Tuition fees up to date     2.644908
+16                                          Gender    -0.506432
+17                              Scholarship holder     0.780843
+18                               Age at enrollment    -0.037925
+19                                   International     1.790087
+20             Curricular units 1st sem (credited)    -0.316124
+21             Curricular units 1st sem (enrolled)    -0.670074
+22          Curricular units 1st sem (evaluations)    -0.044297
+23             Curricular units 1st sem (approved)     1.235939
+24                Curricular units 1st sem (grade)     0.009024
+25  Curricular units 1st sem (without evaluations)     0.315958
+26                               Unemployment rate    -0.079558
+27                                  Inflation rate    -0.007182
+28                                             GDP    -0.034592
+Dataset: Before 1st sem
+                       Feature  Coefficient
+0                    Intercept    -0.678527
+1               Marital status     0.108671
+2             Application mode    -0.053233
+3            Application order     0.010308
+4                       Course    -0.026332
+5   Daytime/evening attendance    -0.322449
+6       Previous qualification     0.020728
+7                  Nacionality    -0.076714
+8       Mother's qualification    -0.014899
+9       Father's qualification     0.003759
+10         Mother's occupation     0.052751
+11         Father's occupation     0.006689
+12                   Displaced    -0.014371
+13   Educational special needs    -0.556509
+14                      Debtor    -1.051964
+15     Tuition fees up to date     2.971971
+16                      Gender    -0.803595
+17          Scholarship holder     1.328624
+18           Age at enrollment    -0.040253
+19               International     1.399670
+20           Unemployment rate     0.006490
+21              Inflation rate    -0.041930
+22                         GDP     0.022182
+Dataset: During 2nd sem
+                                           Feature  Coefficient
+0                                        Intercept    -0.271888
+1                                   Marital status     0.115848
+2                                 Application mode    -0.032252
+3                                Application order    -0.010166
+4                                           Course    -0.092526
+5                       Daytime/evening attendance    -0.396537
+6                           Previous qualification     0.036122
+7                                      Nacionality    -0.096558
+8                           Mother's qualification    -0.008432
+9                           Father's qualification     0.005674
+10                             Mother's occupation     0.062332
+11                             Father's occupation     0.010942
+12                                       Displaced    -0.378754
+13                       Educational special needs    -0.052725
+14                                          Debtor    -1.180526
+15                         Tuition fees up to date     2.664931
+16                                          Gender    -0.516547
+17                              Scholarship holder     0.777535
+18                               Age at enrollment    -0.039090
+19                                   International     1.785336
+20             Curricular units 1st sem (credited)    -0.337204
+21             Curricular units 1st sem (enrolled)    -0.518493
+22          Curricular units 1st sem (evaluations)    -0.049488
+23             Curricular units 1st sem (approved)     1.237033
+24                Curricular units 1st sem (grade)     0.011651
+25  Curricular units 1st sem (without evaluations)     0.322911
+26             Curricular units 2nd sem (enrolled)    -0.156731
+27                               Unemployment rate    -0.075258
+28                                  Inflation rate    -0.010628
+29                                             GDP    -0.031308
+Dataset: During 1st sem
+                                Feature  Coefficient
+0                             Intercept    -1.235056
+1                        Marital status     0.147009
+2                      Application mode    -0.069571
+3                     Application order    -0.004877
+4                                Course    -0.044780
+5            Daytime/evening attendance    -0.452168
+6                Previous qualification     0.017027
+7                           Nacionality    -0.059183
+8                Mother's qualification    -0.014978
+9                Father's qualification     0.003356
+10                  Mother's occupation     0.054244
+11                  Father's occupation     0.008422
+12                            Displaced     0.027945
+13            Educational special needs    -0.385529
+14                               Debtor    -1.040773
+15              Tuition fees up to date     2.944266
+16                               Gender    -0.699925
+17                   Scholarship holder     1.359271
+18                    Age at enrollment    -0.051726
+19                        International     1.270927
+20  Curricular units 1st sem (enrolled)     0.200483
+21                    Unemployment rate    -0.000840
+22                       Inflation rate    -0.060957
+23                                  GDP     0.032038
+Dataset: All variables without tuition with
+                                           Feature  Coefficient
+0                                        Intercept     1.854811
+1                                   Marital status     0.159318
+2                                 Application mode    -0.020528
+3                                Application order    -0.031022
+4                                           Course    -0.097469
+5                       Daytime/evening attendance    -0.264579
+6                           Previous qualification     0.025927
+7                                      Nacionality    -0.092594
+8                           Mother's qualification    -0.008008
+9                           Father's qualification     0.008281
+10                             Mother's occupation     0.048382
+11                             Father's occupation     0.002083
+12                                       Displaced    -0.248461
+13                       Educational special needs    -0.160147
+14                                          Debtor    -1.818610
+15                                          Gender    -0.349920
+16                              Scholarship holder     0.762521
+17                               Age at enrollment    -0.036901
+18                                   International     1.363477
+19             Curricular units 1st sem (credited)    -0.208001
+20             Curricular units 1st sem (enrolled)    -0.349068
+21          Curricular units 1st sem (evaluations)     0.003577
+22             Curricular units 1st sem (approved)     0.664778
+23                Curricular units 1st sem (grade)    -0.105201
+24  Curricular units 1st sem (without evaluations)    -0.005099
+25             Curricular units 2nd sem (credited)    -0.172376
+26             Curricular units 2nd sem (enrolled)    -0.691935
+27          Curricular units 2nd sem (evaluations)    -0.022219
+28             Curricular units 2nd sem (approved)     1.035215
+29                Curricular units 2nd sem (grade)     0.104468
+30  Curricular units 2nd sem (without evaluations)     0.227005
+31                               Unemployment rate    -0.063140
+32                                  Inflation rate     0.041625
+33                                             GDP    -0.024974
+Dataset: Before 2nd sem without tuition
+                                           Feature  Coefficient
+0                                        Intercept     2.076133
+1                                   Marital status     0.074292
+2                                 Application mode    -0.030287
+3                                Application order    -0.008489
+4                                           Course    -0.095091
+5                       Daytime/evening attendance    -0.468354
+6                           Previous qualification     0.031122
+7                                      Nacionality    -0.102616
+8                           Mother's qualification    -0.005852
+9                           Father's qualification     0.004820
+10                             Mother's occupation     0.056907
+11                             Father's occupation     0.010603
+12                                       Displaced    -0.310342
+13                       Educational special needs    -0.095722
+14                                          Debtor    -1.877686
+15                                          Gender    -0.452069
+16                              Scholarship holder     0.865803
+17                               Age at enrollment    -0.039721
+18                                   International     1.442782
+19             Curricular units 1st sem (credited)    -0.319103
+20             Curricular units 1st sem (enrolled)    -0.681278
+21          Curricular units 1st sem (evaluations)    -0.050245
+22             Curricular units 1st sem (approved)     1.262814
+23                Curricular units 1st sem (grade)     0.015736
+24  Curricular units 1st sem (without evaluations)     0.227326
+25                               Unemployment rate    -0.065734
+26                                  Inflation rate     0.004990
+27                                             GDP    -0.028359
+Dataset: Before 1st sem without tuition
+                       Feature  Coefficient
+0                    Intercept     2.054878
+1               Marital status     0.055055
+2             Application mode    -0.051254
+3            Application order    -0.001499
+4                       Course    -0.023473
+5   Daytime/evening attendance    -0.326256
+6       Previous qualification     0.017670
+7                  Nacionality    -0.085450
+8       Mother's qualification    -0.010887
+9       Father's qualification     0.001253
+10         Mother's occupation     0.043796
+11         Father's occupation     0.012648
+12                   Displaced     0.014345
+13   Educational special needs    -0.531440
+14                      Debtor    -1.872696
+15                      Gender    -0.818305
+16          Scholarship holder     1.447133
+17           Age at enrollment    -0.045127
+18               International     1.189770
+19           Unemployment rate     0.022498
+20              Inflation rate    -0.036595
+21                         GDP     0.039303
+Dataset: During 2nd sem without tuition
+                                           Feature  Coefficient
+0                                        Intercept     2.034937
+1                                   Marital status     0.081657
+2                                 Application mode    -0.028889
+3                                Application order    -0.006856
+4                                           Course    -0.093119
+5                       Daytime/evening attendance    -0.440854
+6                           Previous qualification     0.032376
+7                                      Nacionality    -0.102123
+8                           Mother's qualification    -0.005876
+9                           Father's qualification     0.004874
+10                             Mother's occupation     0.057822
+11                             Father's occupation     0.009781
+12                                       Displaced    -0.314973
+13                       Educational special needs    -0.081343
+14                                          Debtor    -1.887632
+15                                          Gender    -0.458671
+16                              Scholarship holder     0.864741
+17                               Age at enrollment    -0.040598
+18                                   International     1.422007
+19             Curricular units 1st sem (credited)    -0.333952
+20             Curricular units 1st sem (enrolled)    -0.570218
+21          Curricular units 1st sem (evaluations)    -0.054099
+22             Curricular units 1st sem (approved)     1.263680
+23                Curricular units 1st sem (grade)     0.017867
+24  Curricular units 1st sem (without evaluations)     0.228330
+25             Curricular units 2nd sem (enrolled)    -0.114960
+26                               Unemployment rate    -0.062611
+27                                  Inflation rate     0.002731
+28                                             GDP    -0.026103
+Dataset: During 1st sem without tuition
+                                Feature  Coefficient
+0                             Intercept     1.436181
+1                        Marital status     0.093785
+2                      Application mode    -0.068176
+3                     Application order    -0.016459
+4                                Course    -0.043188
+5            Daytime/evening attendance    -0.448339
+6                Previous qualification     0.013688
+7                           Nacionality    -0.069133
+8                Mother's qualification    -0.011422
+9                Father's qualification     0.001045
+10                  Mother's occupation     0.045433
+11                  Father's occupation     0.014343
+12                            Displaced     0.051546
+13            Educational special needs    -0.367027
+14                               Debtor    -1.867934
+15                               Gender    -0.706189
+16                   Scholarship holder     1.478300
+17                    Age at enrollment    -0.057389
+18                        International     1.074234
+19  Curricular units 1st sem (enrolled)     0.212330
+20                    Unemployment rate     0.014827
+21                       Inflation rate    -0.054488
+22                                  GDP     0.048280
